@@ -102,6 +102,7 @@ project:
     secret_key = 'this is my secret key which is hard to guess, i should change this'    
     #certfile = <path_to.crt> 
     #keyfile = <path_to.key>
+    #server_timeout = 30
 
     [Task Parameters]
     experiment_code_version = 1.0

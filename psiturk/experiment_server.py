@@ -76,6 +76,9 @@ class ExperimentServer(Application):
             'on_exit': on_exit
         }
 
+        if config.has_option("Server Parameters", "server_timeout"):
+            self.user_options.update({'timeout': config.get("Server Parameters", "server_timeout")})
+
         if config.has_option("Server Parameters", "certfile") and config.has_option("Server Parameters", "keyfile"):
             print "Loading SSL certs for server..."
             ssl_options = {
