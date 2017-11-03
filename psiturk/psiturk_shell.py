@@ -678,6 +678,7 @@ class PsiturkNetworkShell(PsiturkShell):
             workers = self.amt_services.get_workers()
         if workers is False:
             print colorize('*** failed to get workers', 'red')
+            return
         if chosen_hit:
             workers = [worker for worker in workers if \
                        worker['hitId'] == chosen_hit]
@@ -1052,7 +1053,7 @@ class PsiturkNetworkShell(PsiturkShell):
                              '  Creating %s HIT' % colorize(mode, 'bold'),
                              '    HITid: %s' % str(hit_id),
                              '    Max workers: %d' % numWorkers,
-                             '    Reward: $%d' % reward,
+                             '    Reward: $%.2f' % reward,
                              '    Duration: %s hours' % duration,
                              '    Fee: $%.2f' % fee,
                              '    ________________________',
