@@ -292,6 +292,8 @@ class MTurkServicesWrapper():
         
     def _get_hits(self, all_studies=False):
         amt_hits = self.amt_services.get_all_hits()
+        if not amt_hits:
+            return []
         # get list of unique hitids from database
         if not all_studies:
             my_hitids = self._get_my_hitids()
@@ -363,7 +365,7 @@ class MTurkServicesWrapper():
     def hit_expire(self, all_hits, hit_ids=None):
         ''' Expire all HITs. '''
         if all_hits:
-            hits_data = self.amt_services.get_active_hits()
+            hits_data = self.get_active_hits()
             hit_ids = [hit.options['hitid'] for hit in hits_data]
         for hit in hit_ids:
             success = self.amt_services.expire_hit(hit)
@@ -726,7 +728,7 @@ class MTurkServicesWrapper():
                 # Using regular SQL commands list available database on this
                 # node
                 try:
-                    db_url = 'mysql://' + myinstance.master_username + ":" \
+                    db_url = 'mysql+pymysql://' + myinstance.master_username + ":" \
                         + password + "@" + myinstance.endpoint[0] + ":" + \
                         str(myinstance.endpoint[1])
                     engine = sa.create_engine(db_url, echo=False)
@@ -775,7 +777,7 @@ class MTurkServicesWrapper():
                         print("*** Error creating database %s on instance " \
                               "%s" % (db_name, instance_id))
                         return
-                base_url = 'mysql://' + myinstance.master_username + ":" + \
+                base_url = 'mysql+pymysql://' + myinstance.master_username + ":" + \
                     password + "@" + myinstance.endpoint[0] + ":" + \
                     str(myinstance.endpoint[1]) + "/" + db_name
                 self.config.set("Database Parameters", "database_url", base_url)
